@@ -5,18 +5,13 @@ from datetime import datetime
 import calendar
 import time
 
-
 outfile = open("information.txt", "w")
 driver = webdriver.Chrome('c:\project\chromedriver')
 driver.implicitly_wait(3)
 
-
-
 crawl_url = 'http://fly.interpark.com'
-#dep = input("출발지를 입력하세요")
-#arr = input("도착지를 입력하세요")
-dep = '인천'
-arr = '오사카'
+dep = input("출발지를 입력하세요")
+arr = input("도착지를 입력하세요")
 
 #출발, 도착 div id값
 dep_name = 'dep_name'
@@ -41,7 +36,15 @@ def setting_crawl(name, location, number):
         driver.find_element_by_xpath('//*[@id="dd06_0"]/a').click()
         driver.find_element_by_xpath('//*[@id="cal"]/div/div[2]/a[1]').click()
 
-
+def output(data):
+    s_data = data.splitlines()
+    html = str(datetime.today().month) + '/' + str(currentday)
+    for c in s_data:
+            if c !="":
+                html = html+" "+c
+    print(html)
+    outfile.write(html+'\n')
+                
 def search_crawl(currntday, count):
     if(count == 0):
         #첫 번째 검색
@@ -51,26 +54,14 @@ def search_crawl(currntday, count):
         #오름차순 정렬
         driver.find_element_by_xpath('//*[@id="lowPriceCol"]').click()
         data = driver.find_element_by_xpath('//*[@id="schedule0List"]/li[1]').text
-        
 
-        s_data = data.splitlines()
-        html=""
-        for c in s_data:
-            if c !="":
-                html = html+c
-        outfile.write(html)
-                
-       
-        #outfile.write(str(datetime.today().month)+'/'+str(currentday)+data.splitlines())
-        #print(str(datetime.today().month)+'/'+str(currentday)+data),
+        return data
 
     if(count == 1):
         #날짜 다시 설정
         driver.find_element_by_xpath('//*[@id="dBodyContent"]/div[1]/div[1]/div/table/tbody/tr/td/div[2]/button').click()
         driver.find_element_by_xpath('//*[@id="dBodyContent"]/div[1]/div[3]/div/div[2]/div/div[3]/button').click()
-        print(currentday)
         if(currentday < 10):
-            print('//*[@id="dd0'+str(currentday)+'_0"]/a')
             driver.find_element_by_xpath('//*[@id="dd0'+str(currentday)+'_0"]/a').click()
         elif(currentday >= 10 and currentday <= final_day):
             driver.find_element_by_xpath('//*[@id="dd'+str(currentday)+'_0"]/a').click()
@@ -83,27 +74,27 @@ def search_crawl(currntday, count):
         #오름차순 정렬
         driver.find_element_by_xpath('//*[@id="lowPriceCol"]').click()
         data = driver.find_element_by_xpath('//*[@id="schedule0List"]/li[1]').text
-        outfile.write(data)
-        print(str(datetime.today().month)+'/'+str(currentday)+data)
+
+        return data
     
 flag = 0
 first = 0
 after = 1
 today = datetime.today().day
-final_day = 7
-#final_day = calendar.monthrange(datetime.today().year, datetime.today().month)[1]
-currentday = today + 2
+final_day = 8
+final_day = calendar.monthrange(datetime.today().year, datetime.today().month)[1]
+currentday = today + 1
 
 while(1):
     if(flag == 0):
         setting_crawl(dep_name, dep, 0)
         setting_crawl(arr_name, arr, 1)
-        search_crawl(currentday, first)
+        output(search_crawl(currentday, first))
         flag += 1
         currentday += 1
         
     elif(flag == 1 and currentday <= final_day):
-        search_crawl(currentday, after)
+        output(search_crawl(currentday, after))
         currentday += 1
     else:
         driver.close()
