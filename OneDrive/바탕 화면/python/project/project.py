@@ -12,6 +12,7 @@ driver.implicitly_wait(3)
 crawl_url = 'http://fly.interpark.com'
 dep = input("출발지를 입력하세요")
 arr = input("도착지를 입력하세요")
+currentday = int(input("검색할 시작날짜를 입력하세요"))
 
 #출발, 도착 div id값
 dep_name = 'dep_name'
@@ -33,7 +34,7 @@ def setting_crawl(name, location, number):
     if(number == 1):
         #날짜 선택
         driver.find_element_by_xpath('//*[@id="searchForm"]/div[3]/button').click()
-        driver.find_element_by_xpath('//*[@id="dd06_0"]/a').click()
+        driver.find_element_by_xpath('//*[@id="dd0'+str(currentday)+'_0"]/a').click()
         driver.find_element_by_xpath('//*[@id="cal"]/div/div[2]/a[1]').click()
 
 def output(data):
@@ -82,7 +83,6 @@ first = 0
 after = 1
 today = datetime.today().day
 final_day = calendar.monthrange(datetime.today().year, datetime.today().month)[1]
-currentday = today + 1
 
 while(1):
     if(flag == 0):
