@@ -86,8 +86,8 @@ final_day = calendar.monthrange(datetime.today().year, datetime.today().month)[1
 
 while(1):
     if(flag == 0):
-        setting_crawl(dep_name, dep, 0)
-        setting_crawl(arr_name, arr, 1)
+        setting_crawl(dep_name, dep, first)
+        setting_crawl(arr_name, arr, after)
         output(search_crawl(currentday, first))
         flag += 1
         currentday += 1
