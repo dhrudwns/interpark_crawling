@@ -5,7 +5,7 @@ from datetime import datetime
 import calendar
 import time
 
-outfile = open("information.txt", "w")
+outfile = open("information.txt", "a")
 driver = webdriver.Chrome('c:\project\chromedriver')
 driver.implicitly_wait(3)
 
