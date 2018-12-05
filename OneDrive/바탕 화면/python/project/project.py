@@ -81,7 +81,6 @@ flag = 0
 first = 0
 after = 1
 today = datetime.today().day
-final_day = 8
 final_day = calendar.monthrange(datetime.today().year, datetime.today().month)[1]
 currentday = today + 1
 
