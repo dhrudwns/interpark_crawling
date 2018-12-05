@@ -47,8 +47,8 @@ def output(data):
     outfile.write(html+'\n')
                 
 def search_crawl(currntday, count):
+    #첫 번째 검색
     if(count == 0):
-        #첫 번째 검색
         driver.find_element_by_xpath('//*[@id="searchButton"]/span').click()
         time.sleep(3)
     
@@ -58,8 +58,8 @@ def search_crawl(currntday, count):
 
         return data
 
+    #날짜 다시 설정
     if(count == 1):
-        #날짜 다시 설정
         driver.find_element_by_xpath('//*[@id="dBodyContent"]/div[1]/div[1]/div/table/tbody/tr/td/div[2]/button').click()
         driver.find_element_by_xpath('//*[@id="dBodyContent"]/div[1]/div[3]/div/div[2]/div/div[3]/button').click()
         if(currentday < 10):
@@ -86,8 +86,8 @@ final_day = calendar.monthrange(datetime.today().year, datetime.today().month)[1
 
 while(1):
     if(flag == 0):
-        setting_crawl(dep_name, dep, first)
-        setting_crawl(arr_name, arr, after)
+        setting_crawl(dep_name, dep, 0)
+        setting_crawl(arr_name, arr, 1)
         output(search_crawl(currentday, first))
         flag += 1
         currentday += 1
